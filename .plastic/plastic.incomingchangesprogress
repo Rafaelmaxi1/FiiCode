@@ -1,0 +1,20 @@
+[
+  {
+    "MountId": "56e62dd7-241f-41e9-8c6b-dd4ca4513e62",
+    "AncestorCsetIds": [
+      56
+    ],
+    "SourceCsetId": 60,
+    "DestinationCsetId": 56,
+    "FileConflicts": [
+      {
+        "Path": "/Assets/DropDown/Map/New Scene.unity",
+        "ItemId": 6988,
+        "ParentItemId": 6978,
+        "BaseRevId": 13903,
+        "SourceRevId": 13944,
+        "DestinationRevId": 13903
+      }
+    ]
+  }
+]

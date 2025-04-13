@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using Random = System.Random;
 
 public class Boss1Script : MonoBehaviour
@@ -33,7 +34,7 @@ public class Boss1Script : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     public bool isAlive = true;
-    public int numberOfLives = 1;
+    public int numberOfLives;
 
     private float cooldownBullets = 5f;
     private float untilCooldownBullets = 0f;
@@ -46,6 +47,7 @@ public class Boss1Script : MonoBehaviour
     // Update is called once per frame
     private void Start()
     {
+        numberOfLives = 5;
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = bossFightMusic;
     }
@@ -60,13 +62,19 @@ public class Boss1Script : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (numberOfLives <= 0)
+        {
+            GameObject.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "YOU WON!";
+            Destroy(gameObject);
+            isAlive = false;
+        }
+        else
+        {
+            GameObject.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "";
+        }
         if (!isAlive)
         {
             return;
-        }
-        if(numberOfLives <= 0)
-        {
-            Debug.Log("You win!");
         }
         if(cooldownBullets <= untilCooldownBullets)
         {
