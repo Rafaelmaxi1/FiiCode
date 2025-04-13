@@ -14,6 +14,8 @@ public class ChestScript : MonoBehaviour
     [SerializeField] private GameObject hlai;
     [SerializeField] private Transform point;
 
+    [SerializeField] private AudioSource audioSource;
+
     private bool chestWasOpened = false;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,7 @@ public class ChestScript : MonoBehaviour
     void Update()
     {
         if (nearChest()){
-            GameObject.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Press 'F' to open";
+            GameObject.Find("Text (TMP)1").GetComponent<TextMeshProUGUI>().text = "Press 'F' to open";
             if (Input.GetKeyDown(KeyCode.F) && !chestWasOpened)
             {
                 chestWasOpened = true;
@@ -35,11 +37,12 @@ public class ChestScript : MonoBehaviour
                 var newHlai = Instantiate(hlai);
                 newHlai.transform.position = transform.position;
                 newHlai.GetComponent<HLAIScript>().point1 = point;
+                audioSource.Play();
             }
         }
         else
         {
-            GameObject.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "";
+            GameObject.Find("Text (TMP)1").GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 
