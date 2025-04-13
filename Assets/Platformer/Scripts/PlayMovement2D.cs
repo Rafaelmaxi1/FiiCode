@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayMovement2D : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class PlayMovement2D : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask bulletLayer;
+    [SerializeField] private LayerMask spikeLayer;
+    [SerializeField] private LayerMask sceneChanger;
     [SerializeField] private TrailRenderer trail;
 
 
@@ -50,6 +53,37 @@ public class PlayMovement2D : MonoBehaviour
         {
             Debug.Log("Hit");
         }
+        if (hitBySpike())
+        {
+            try
+            {
+                transform.position = GameObject.Find("SpawnPoint").transform.position;
+            }
+            catch
+            {
+                Debug.Log("There's no spawn point.");
+            }
+        }
+        if (hitByScene())
+        {
+            Debug.Log("DAA");
+            try
+            {
+                if (GameObject.Find("SceneChange").tag == "Platformer")
+                {
+                    SceneManager.LoadScene("Platformer 1");
+                }
+                if(GameObject.Find("SceneChange").tag == "Boss")
+                {
+                    
+                    SceneManager.LoadScene("Bossfight");
+                }
+            }
+            catch
+            {
+                Debug.Log("Object doesn't exist!");
+            }
+        }
         
     }
 
@@ -72,6 +106,15 @@ public class PlayMovement2D : MonoBehaviour
     private bool hitByBullet()
     {
         return Physics2D.OverlapCircle(transform.position, 0.5f, bulletLayer);
+    }
+
+    private bool hitBySpike()
+    {
+        return Physics2D.OverlapCircle(transform.position, 0.5f, spikeLayer);
+    }
+    private bool hitByScene()
+    {
+        return Physics2D.OverlapCircle(transform.position, 0.5f, sceneChanger);
     }
 
     private IEnumerator Dash()

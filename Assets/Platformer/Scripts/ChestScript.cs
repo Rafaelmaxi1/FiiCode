@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ChestScript : MonoBehaviour
 {
@@ -21,17 +22,24 @@ public class ChestScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if(nearChest() && Input.GetKeyDown(KeyCode.F) && !chestWasOpened)
+        if (nearChest()){
+            GameObject.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Press 'F' to open";
+            if (Input.GetKeyDown(KeyCode.F) && !chestWasOpened)
+            {
+                chestWasOpened = true;
+                sr.sprite = chestOpened;
+                particleSystem.GetComponent<ParticleSystem>().enableEmission = true;
+                particleSystem.GetComponent<ParticleSystem>().Emit(150);
+                var newHlai = Instantiate(hlai);
+                newHlai.transform.position = transform.position;
+                newHlai.GetComponent<HLAIScript>().point1 = point;
+            }
+        }
+        else
         {
-            chestWasOpened = true;
-            sr.sprite = chestOpened;
-            particleSystem.GetComponent<ParticleSystem>().enableEmission = true;
-            particleSystem.GetComponent<ParticleSystem>().Emit(150);
-            var newHlai = Instantiate(hlai);
-            newHlai.transform.position = transform.position;
-            newHlai.GetComponent<HLAIScript>().point1 = point;
+            GameObject.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 

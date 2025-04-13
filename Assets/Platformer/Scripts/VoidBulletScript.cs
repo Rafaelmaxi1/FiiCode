@@ -8,19 +8,32 @@ public class VoidBulletScript : MonoBehaviour
     public Transform player;
     public Vector3 startDir;
 
+    public LayerMask layerMask;
+
     private float speed = 0.1f;
     bool finishedStart = false;
     private float timer = 0f;
 
     bool created = false;
 
+    private AudioSource audioSource;
+    public AudioClip shootAudio;
+
     GameObject dir;
     private void Start()
     {
         dir = new GameObject();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = shootAudio;
+        audioSource.Play();
     }
     void FixedUpdate()
     {
+        if (touchedSmth())
+        {
+            Destroy(dir);
+            Destroy(gameObject);
+        }
         timer += Time.deltaTime;
         if (!created && timer > 1.5f)
         {
@@ -41,8 +54,13 @@ public class VoidBulletScript : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
             Destroy(dir);
+            Destroy(gameObject);
         }
+    }
+
+    private bool touchedSmth()
+    {
+        return Physics2D.OverlapCircle(transform.position, 0.1f, layerMask);
     }
 }
